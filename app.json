@@ -1,0 +1,49 @@
+{
+  "expo": {
+    "name": "EcoCatalão",
+    "slug": "ecocatalao-mobile",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/images/ecocatalao-icon.png",
+    "scheme": "ecocatalaomobile",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "bundleIdentifier": "br.org.ecocatalao.mobile",
+      "supportsTablet": true
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#E3EFE4",
+        "foregroundImage": "./assets/images/ecocatalao-icon.png"
+      },
+      "package": "br.org.ecocatalao.mobile",
+      "blockedPermissions": ["android.permission.RECORD_AUDIO"]
+    },
+    "web": {
+      "output": "static",
+      "favicon": "./assets/images/ecocatalao-icon.png"
+    },
+    "plugins": [
+      "expo-router",
+      [
+        "expo-splash-screen",
+        {
+          "image": "./assets/images/ecocatalao-icon.png",
+          "backgroundColor": "#F6F7F2",
+          "imageWidth": 120
+        }
+      ],
+      [
+        "expo-camera",
+        {
+          "barcodeScannerEnabled": false,
+          "recordAudioAndroid": false,
+          "cameraPermission": "Permitir que o EcoCatalão fotografe um material para esta demonstração?"
+        }
+      ]
+    ],
+    "experiments": {
+      "typedRoutes": true
+    }
+  }
+}
