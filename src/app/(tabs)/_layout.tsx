@@ -1,4 +1,3 @@
-import { View } from "react-native";
 import { Tabs } from "expo-router/js-tabs";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Icon } from "../../components/ui";
@@ -9,19 +8,16 @@ export default function TabLayout() {
     <Tabs
       screenOptions={{
         headerShown: false,
-        tabBarActiveTintColor: c.lime,
-        tabBarInactiveTintColor: "#C6D6CF",
+        tabBarActiveTintColor: c.primary,
+        tabBarInactiveTintColor: c.muted,
         tabBarHideOnKeyboard: true,
         tabBarStyle: {
-          position: "absolute",
-          bottom: Math.max(insets.bottom, 12),
-          marginHorizontal: 12,
-          height: 76,
-          paddingTop: 10,
-          paddingBottom: 10,
-          borderRadius: 26,
-          backgroundColor: c.night,
-          borderTopWidth: 0,
+          height: 70 + insets.bottom,
+          paddingTop: 8,
+          paddingBottom: Math.max(insets.bottom, 8),
+          backgroundColor: c.surface,
+          borderTopWidth: 1,
+          borderTopColor: c.line,
         },
         tabBarLabelStyle: { fontSize: 11, fontWeight: "600" },
       }}
@@ -29,59 +25,40 @@ export default function TabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Início",
+          title: "Comunidade",
+          tabBarAccessibilityLabel: "Comunidade do Catalão",
           tabBarIcon: ({ color }) => <Icon name="home-outline" color={color} />,
         }}
       />
       <Tabs.Screen
-        name="mercado"
+        name="registro"
         options={{
-          title: "Mercado",
-          tabBarAccessibilityLabel: "Mercado Verde",
+          title: "Registro",
+          tabBarAccessibilityLabel: "Registro de Resíduo",
           tabBarIcon: ({ color }) => (
-            <Icon name="basket-outline" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="camera"
-        options={{
-          title: "Câmera",
-          tabBarIcon: () => (
-            <View
-              style={{
-                backgroundColor: c.lime,
-                width: 48,
-                height: 48,
-                borderRadius: 24,
-                justifyContent: "center",
-                alignItems: "center",
-                marginTop: -14,
-              }}
-            >
-              <Icon name="camera-outline" color={c.night} size={28} />
-            </View>
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="aprender"
-        options={{
-          title: "Aprender",
-          tabBarIcon: ({ color }) => (
-            <Icon name="book-open-page-variant-outline" color={color} />
+            <Icon name="camera-outline" color={color} />
           ),
         }}
       />
       <Tabs.Screen
         name="mapa"
         options={{
-          title: "Mapa",
+          title: "Pontos de Coleta",
           tabBarIcon: ({ color }) => (
             <Icon name="map-marker-outline" color={color} />
           ),
         }}
       />
+      <Tabs.Screen
+        name="aprender"
+        options={{
+          title: "Reciclagem",
+          tabBarIcon: ({ color }) => <Icon name="recycle" color={color} />,
+        }}
+      />
+      <Tabs.Screen name="camera" options={{ href: null }} />
+      <Tabs.Screen name="carteira" options={{ href: null }} />
+      <Tabs.Screen name="mercado" options={{ href: null }} />
     </Tabs>
   );
 }

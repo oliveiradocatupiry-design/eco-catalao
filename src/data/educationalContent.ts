@@ -76,11 +76,12 @@ export const educationalContent: EducationalContent[] = [
     minutes: 2,
     icon: "basket-outline",
     color: "#E3EFE4",
-    summary: "Do registro à entrega: entenda cada etapa.",
+    summary:
+      "Conheça a proposta do evento comunitário. Datas e regras ainda precisam de validação.",
     sections: [
       {
         title: "1. Registre o material",
-        body: "Identifique ou selecione o material e informe a quantidade na unidade indicada. O aplicativo mostra uma estimativa demonstrativa de CATS.",
+        body: "Selecione manualmente o material e informe a quantidade ou o peso. Os valores em CATS ainda serão definidos pelo projeto.",
       },
       {
         title: "2. Prepare a entrega",
@@ -88,7 +89,7 @@ export const educationalContent: EducationalContent[] = [
       },
       {
         title: "3. A confirmação vem depois",
-        body: "No sistema futuro, uma pessoa autorizada verificará a entrega. Neste protótipo, os registros confirmados são apenas exemplos e não permitem resgate.",
+        body: "No sistema futuro, uma pessoa autorizada verificará a entrega. Neste protótipo não há confirmação administrativa, saldo ou resgate.",
       },
     ],
   },

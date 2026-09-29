@@ -1,15 +1,4 @@
-import { useEffect } from "react";
-import { usePathname } from "expo-router";
-import { useApp } from "../context/AppContext";
-// Fotos existem apenas no fluxo de identificação. Abandonar o fluxo limpa seu cache.
+// A foto salva pertence ao registro durante a sessão. A navegação não a exclui.
 export function FlowPrivacy() {
-  const pathname = usePathname();
-  const { clearFlow } = useApp();
-  useEffect(() => {
-    if (
-      !["/camera", "/resultado", "/corrigir", "/adicionar"].includes(pathname)
-    )
-      clearFlow();
-  }, [pathname, clearFlow]);
   return null;
 }

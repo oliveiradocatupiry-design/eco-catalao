@@ -38,7 +38,10 @@ export function Icon({
     />
   );
 }
-export function Screen({ children }: PropsWithChildren) {
+export function Screen({
+  children,
+  scrollRef,
+}: PropsWithChildren<{ scrollRef?: React.Ref<ScrollView> }>) {
   return (
     <SafeAreaView style={styles.safe} edges={["top", "left", "right"]}>
       <KeyboardAvoidingView
@@ -46,6 +49,7 @@ export function Screen({ children }: PropsWithChildren) {
         behavior={Platform.OS === "ios" ? "padding" : undefined}
       >
         <ScrollView
+          ref={scrollRef}
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={styles.screen}
         >
@@ -234,24 +238,24 @@ export function EmptyState({
 export const styles = StyleSheet.create({
   safe: { flex: 1, backgroundColor: c.background },
   screen: {
-    padding: s.xl,
+    padding: 20,
     paddingBottom: 120,
     gap: s.lg,
     width: "100%",
-    maxWidth: 640,
+    maxWidth: 480,
     alignSelf: "center",
   },
   heading: { gap: s.sm, paddingVertical: s.sm },
   eyebrow: {
-    fontSize: t.caption,
-    letterSpacing: 2,
+    fontSize: 10,
+    letterSpacing: 1,
     fontWeight: "700",
     color: c.primary,
   },
   title: {
     fontSize: t.title,
     lineHeight: 36,
-    fontWeight: "800",
+    fontWeight: "700",
     color: c.ink,
     letterSpacing: -0.7,
   },

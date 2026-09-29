@@ -2,10 +2,9 @@
   "expo": {
     "name": "EcoCatalão",
     "slug": "ecocatalao-mobile",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/ecocatalao-icon.png",
-    "scheme": "ecocatalaomobile",
     "userInterfaceStyle": "light",
     "ios": {
       "bundleIdentifier": "br.org.ecocatalao.mobile",
@@ -39,6 +38,19 @@
           "barcodeScannerEnabled": false,
           "recordAudioAndroid": false,
           "cameraPermission": "Permitir que o EcoCatalão fotografe um material para esta demonstração?"
+        }
+      ],
+      [
+        "expo-location",
+        {
+          "locationWhenInUsePermission": "Permitir que o EcoCatalão mostre sua posição no mapa de pontos de coleta?"
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "microphonePermission": false,
+          "photosPermission": "Permitir selecionar uma foto do resíduo?"
         }
       ]
     ],

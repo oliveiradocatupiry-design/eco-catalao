@@ -20,8 +20,8 @@ export default function Article() {
       <Screen>
         <EmptyState
           title="Conteúdo não encontrado"
-          text="Veja os conteúdos disponíveis na área Aprender."
-          action="Ir para Aprender"
+          text="Veja os conteúdos disponíveis na área Reciclagem."
+          action="Ir para Reciclagem"
           onPress={() => router.replace("/aprender")}
         />
       </Screen>
@@ -49,7 +49,7 @@ export default function Article() {
       <Button
         title="Colocar em prática"
         icon="camera-outline"
-        onPress={() => router.dismissTo("/camera")}
+        onPress={() => router.dismissTo("/registro")}
       />
       <Button
         secondary

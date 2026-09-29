@@ -9,132 +9,143 @@ import {
   Section,
   styles,
 } from "../../components/ui";
-import { CatsBalance, EducationalCard } from "../../components/FeatureCards";
 import { RiverArt } from "../../components/RiverArt";
+import { CommunityTopicCard } from "../../components/CommunityTopicCard";
+import { HomeStepCard } from "../../components/HomeStepCard";
+import { communityTopics } from "../../data/community";
 import { useApp } from "../../context/AppContext";
-import { educationalContent } from "../../data/educationalContent";
-import { colors as c } from "../../constants/theme";
+import { colors } from "../../constants/theme";
 export default function Home() {
-  const { totals, entries, clearFlow } = useApp();
+  const { entries } = useApp();
   return (
     <Screen>
-      <View style={styles.rowBetween}>
-        <View style={styles.row}>
-          <View
+      <View style={[styles.row, { paddingBottom: 16 }]}>
+        <View
+          accessibilityLabel="Símbolo EcoCatalão"
+          style={{
+            width: 30,
+            height: 30,
+            borderRadius: 10,
+            backgroundColor: colors.primary,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
             style={{
-              backgroundColor: c.primarySoft,
-              borderRadius: 16,
-              padding: 8,
+              fontFamily: "Georgia",
+              fontStyle: "italic",
+              fontWeight: "800",
+              fontSize: 25,
+              color: colors.lime,
+              lineHeight: 30,
             }}
           >
-            <Icon name="sprout" size={24} />
-          </View>
-          <Text style={[styles.subtitle, { fontSize: 22 }]}>EcoCatalão</Text>
+            e
+          </Text>
         </View>
-        <View style={[styles.badge, { paddingHorizontal: 8 }]}>
-          <Text style={[styles.caption, { fontSize: 11 }]}>PROTÓTIPO</Text>
-        </View>
+        <Text style={[styles.subtitle, { fontSize: 20 }]}>EcoCatalão</Text>
       </View>
       <Heading
-        eyebrow="CUIDAR COMEÇA PERTO"
-        title="Olá! Vamos cuidar do nosso lugar?"
-        subtitle="Pequenas atitudes, novos caminhos para os materiais."
+        eyebrow="COMUNIDADE FLUTUANTE LAGO DO CATALÃO"
+        title="Cuidar do rio começa em casa."
+        subtitle="Registre resíduos, descubra onde entregar e aprenda a reaproveitar."
       />
-      <Card
-        tone={c.primarySoft}
-        style={{ padding: 24, borderRadius: 26, gap: 18 }}
-      >
-        <View style={styles.rowBetween}>
-          <View style={{ flex: 1 }}>
-            <Text style={styles.eyebrow}>UM MATERIAL DE CADA VEZ</Text>
-          </View>
-          <View
-            style={{
-              backgroundColor: "#F4F8E9",
-              padding: 12,
-              borderRadius: 50,
-              transform: [{ rotate: "-12deg" }],
-            }}
-          >
-            <Icon name="line-scan" size={36} />
-          </View>
-        </View>
-        <Text style={styles.title}>Que material é esse?</Text>
-        <Text style={styles.body}>
-          Fotografe, descubra como separar e prepare sua próxima entrega.
-        </Text>
-        <Button
-          title="Tirar uma foto"
-          icon="camera-outline"
-          onPress={() => {
-            clearFlow();
-            router.navigate("/camera");
-          }}
-        />
-        <Text style={styles.caption}>
-          Identificação simulada para demonstração.
-        </Text>
-      </Card>
-      <Section
-        title="Seu cuidado tem valor"
-        action="Ver carteira →"
-        onPress={() => router.push("/carteira")}
-      />
-      <CatsBalance pending={totals.pending} confirmed={totals.confirmed} />
       <Pressable
         accessibilityRole="button"
-        onPress={() => router.navigate("/mercado")}
+        accessibilityLabel="Registrar resíduo"
+        onPress={() => router.navigate("/registro")}
+        style={[
+          styles.row,
+          {
+            padding: 18,
+            borderRadius: 22,
+            backgroundColor: colors.primary,
+            minHeight: 80,
+          },
+        ]}
       >
-        <Card>
-          <View style={styles.row}>
-            <Icon name="basket-outline" size={34} />
-            <View style={{ flex: 1 }}>
-              <Text style={styles.subtitle}>Mercado Verde</Text>
-              <Text style={styles.body}>
-                {entries.filter((e) => e.status === "pending").length}{" "}
-                registro(s) aguardando entrega
-              </Text>
-            </View>
-            <Icon name="arrow-right" />
-          </View>
-        </Card>
+        <View
+          style={{
+            padding: 10,
+            borderRadius: 14,
+            backgroundColor: colors.lime,
+          }}
+        >
+          <Icon name="camera-outline" />
+        </View>
+        <View style={{ flex: 1 }}>
+          <Text style={[styles.buttonText, { textAlign: "left" }]}>
+            Registrar resíduo
+          </Text>
+          <Text style={[styles.caption, { color: "#E0EEE8" }]}>
+            Use a câmera ou uma foto da galeria
+          </Text>
+        </View>
+        <Icon name="arrow-right" color="white" />
       </Pressable>
       <Section
-        title="Aprender para transformar"
-        action="Ver todos →"
+        title="Por onde começar?"
+        action="Ver tudo"
         onPress={() => router.navigate("/aprender")}
       />
-      <EducationalCard item={educationalContent[0]} />
-      <Pressable
-        accessibilityRole="button"
-        onPress={() => router.navigate("/mapa")}
-      >
-        <Card tone={c.river}>
-          <View style={styles.row}>
-            <Icon
-              name="map-marker-radius-outline"
-              color={c.riverInk}
-              size={34}
-            />
-            <View style={{ flex: 1 }}>
-              <Text style={styles.subtitle}>Onde entregar?</Text>
-              <Text style={styles.body}>Explore os pontos demonstrativos.</Text>
-            </View>
-            <Icon name="arrow-right" color={c.riverInk} />
+      <View style={[styles.row, { alignItems: "stretch", gap: 8 }]}>
+        <HomeStepCard
+          icon="recycle"
+          title="Separe"
+          text="Não misture recicláveis com restos de comida."
+        />
+        <HomeStepCard
+          icon="water-outline"
+          title="Limpe"
+          text="Retire resíduos e evite desperdício de água."
+        />
+        <HomeStepCard
+          icon="restore"
+          title="Reaproveite"
+          text="Pense em uma nova utilidade antes de descartar."
+        />
+      </View>
+      <Card tone={colors.primarySoft}>
+        <View style={styles.rowBetween}>
+          <View>
+            <Text style={styles.eyebrow}>SEUS REGISTROS</Text>
+            <Text style={styles.subtitle}>
+              {entries.length}{" "}
+              <Text style={styles.body}>
+                {entries.length === 1
+                  ? "registro nesta sessão"
+                  : "registros nesta sessão"}
+              </Text>
+            </Text>
           </View>
-        </Card>
-      </Pressable>
-      <Section title="Feito para o nosso território" />
+          <Icon name="waves" color={colors.riverInk} />
+        </View>
+      </Card>
+      <Section title="Nosso lugar, nosso cuidado" />
       <RiverArt />
-      <Text style={styles.subtitle}>Comunidade do Catalão</Text>
+      <Text style={styles.caption}>Ilustração do cotidiano ribeirinho.</Text>
       <Text style={styles.body}>
-        O rio, as pessoas e o cuidado com o lugar onde a vida acontece.
+        Entre casas flutuantes e caminhos pelo rio, o Lago do Catalão é lugar de
+        vida. O EcoCatalão apoia o morador na separação dos resíduos e no
+        cuidado com o território compartilhado.
       </Text>
+      <View style={styles.wrap}>
+        {communityTopics.map((topic) => (
+          <CommunityTopicCard key={topic.title} {...topic} />
+        ))}
+      </View>
       <Button
         secondary
-        title="Conhecer a comunidade"
-        icon="home-group"
-        onPress={() => router.push("/comunidade")}
+        title="Ver pontos de coleta"
+        icon="map-marker-outline"
+        onPress={() => router.navigate("/mapa")}
+      />
+      <Button
+        secondary
+        title="Aprender sobre reciclagem"
+        icon="recycle"
+        onPress={() => router.navigate("/aprender")}
       />
     </Screen>
   );

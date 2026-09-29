@@ -83,7 +83,7 @@ export const materials: Material[] = [
   },
   {
     id: "plastico",
-    nome: "Plástico",
+    nome: "Plástico rígido",
     categoria: "Plástico",
     descricao: "Conhecer o tipo ajuda a escolher o destino.",
     reciclavel: true,

@@ -6,6 +6,9 @@ export interface MapProps {
   selected: string;
   onSelect: (id: string) => void;
   native?: boolean;
+  user?: { latitude: number; longitude: number };
+  focus?: "community" | "user" | "point";
+  focusVersion?: number;
 }
 export default function CollectionMap({ selected, onSelect }: MapProps) {
   return (

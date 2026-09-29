@@ -1,129 +1,69 @@
-# EcoCatalão
+# EcoCatalão — protótipo mobile v2
 
-Protótipo mobile em português para educação ambiental, identificação simulada de materiais, Mercado Verde e CATS na Comunidade Flutuante do Lago do Catalão. Componentes nativos React Native, sem WebView.
+Aplicativo React Native + Expo Router para moradores da Comunidade Flutuante do Lago do Catalão. Esta versão substitui a classificação simulada e os saldos fictícios por registro manual, CATS indefinidos e quatro abas.
 
 ## Executar
 
-Requisitos: Node.js 22.13+ (LTS recomendado), npm e Expo Go compatível com **SDK 57**. Ambiente validado: Node 24.16.0 e npm 11.13.0.
+O projeto usa Expo SDK 57 e Node.js 22.13 ou superior. Preserve o Expo Go compatível que já funcionou no aparelho do projeto em 21/09/2026.
 
 ```powershell
 cd "C:\Users\Usuario\Documents\Eco Catalão\ecocatalao-mobile"
-npm install
+npm ci
 npx expo start
 ```
 
-As dependências já estão instaladas. Nas próximas vezes basta `npx expo start`. Para reproduzir as versões do lockfile, use `npm ci`.
+Leia o QR Code no Expo Go, na mesma rede do computador. Nas próximas execuções, basta `npx expo start`. Se a rede local não funcionar, `npx expo start --tunnel` é uma alternativa que requer internet. Para navegador, `npm run web`.
 
-1. Conecte computador e celular à mesma rede Wi-Fi; mantenha o terminal aberto.
-2. Android: leia o QR Code pelo Expo Go compatível.
-3. iPhone: com um Expo Go compatível instalado, leia o QR Code pela Câmera e abra o link. Se solicitado, entre na mesma conta Expo na CLI e no aplicativo.
-4. Autorize a câmera ou toque em **Usar ilustração de demonstração**.
-5. Encerre o servidor com `Ctrl+C`.
+## As quatro abas
 
-O aparelho precisa permitir rede local e o firewall precisa permitir o servidor. O projeto não altera essas configurações automaticamente.
+1. **Comunidade do Catalão:** apresentação local, cuidados cotidianos e atalhos. A barra usa o rótulo curto Comunidade.
+2. **Registro de Resíduo:** câmera real com permissão, galeria, prévia, seleção manual de material, quantidade e/ou peso, CATS ainda indefinidos e histórico da sessão. A barra usa Registro.
+3. **Pontos de Coleta:** mapa nativo, pedido de localização em primeiro acesso, referência aproximada do lago, marcadores distintos, detalhes e lista de exemplos. Permissão negada ou GPS indisponível não impede consultar os pontos.
+4. **Reciclagem:** cinco tipos, oito subtipos e oito ideias de reutilização, com informações gerais, impactos, separação, descarte, materiais necessários e passo a passo. Ilustrações locais dispensam download de imagens.
 
-### Atenção: Expo Go no iPhone
+## Limites explícitos
 
-Na documentação consultada em 21/09/2026, o Expo Go da **App Store permanece no SDK 54**. Este projeto usa o **SDK 57 atual**, conforme o requisito de não escolher versões antigas deliberadamente. O Expo Go comum da App Store **não é suficiente** para abrir este projeto.
+- Não há login, backend, classificação automática, confiança de IA, cálculo de CATS, confirmação administrativa ou edição de pontos.
+- Registros começam vazios e ficam em memória. Recarregar ou encerrar o processo reinicia o histórico. A foto permanece vinculada ao registro durante a sessão; arquivos nativos temporários ficam no cache administrado pelo sistema. Não há upload.
+- O formulário aceita um ou ambos os campos: quantidade inteira positiva e peso positivo, inclusive com vírgula decimal. Foto é opcional.
+- Pontos e contatos são mockados e sinalizados como exemplos sem recebimento real. Não há telefones inventados. A referência geográfica é do lago; a posição exata da comunidade precisa de levantamento e validação local.
+- O mapa nativo usa a base cartográfica do sistema e precisa de conexão para carregar. A lista e os conteúdos são locais. No navegador, o mapa é um esquema ilustrativo explicitamente identificado; a validação do mapa geográfico deve ser feita no Expo Go.
+- Permissão de câmera negada permite continuar pela galeria ou sem foto. Trocar de aba ou colocar o aplicativo em segundo plano fecha a câmera.
+- Sem fotos reais da comunidade fornecidas com autorização, o banner usa uma ilustração conceitual. O conteúdo educativo inicial também precisa de revisão comunitária.
+- As rotas antigas redirecionam ao registro/home para não expor a classificação e os saldos anteriores.
 
-O caminho oficial para iPhone físico é o Expo Go correspondente via TestFlight interno, preparado com `eas go`, ou um build de desenvolvimento. O caminho `eas go` exige associação ao Apple Developer Program e credenciais próprias. Nenhuma conta, credencial, infraestrutura em nuvem ou instalação no sistema foi criada nesta tarefa.
+## Organização
 
-Se já possuir essas contas, consulte a documentação antes de preparar seu Expo Go:
+- `src/app/(tabs)`: quatro áreas principais.
+- `src/app/tipo`, `subtipo`, `reutilizacao`: trilha educativa.
+- `src/components`: componentes visuais, seletor e mapas por plataforma.
+- `src/data`: comunidade, materiais, tipos, subtipos, ideias e pontos editáveis.
+- `src/types/registration.ts`: contrato do registro, incluindo foto e CATS nulo.
+- `src/services/registrationService.ts`: validação e construção de registros, independente da interface.
+- `src/context/AppContext.tsx`: armazenamento em memória, substituível por persistência futura.
+- `src/hooks/useUserLocation.ts`: permissão, localização e recuperação de falhas.
 
-```powershell
-npx eas-cli@latest go --sdk-version 57.0.0
-```
+## Referência visual e escopo
 
-- [Incompatibilidade de versões do Expo Go](https://docs.expo.dev/troubleshooting/expo-go-version-mismatch/)
-- [Instalação por plataforma e SDK](https://expo.dev/go)
-- [Expo Go via EAS](https://expo.fyi/eas-go)
+A identidade foi adaptada do [Figma informado, nó 5:2](https://www.figma.com/design/a2yk5PxmyWGOWBwbqCtP4A/EcoCatalao?node-id=5-2): fundo creme, verde escuro, amarelo no destaque, símbolo e, cards brancos e navegação inferior branca. Os componentes são nativos e responsivos. O novo escopo exige quatro abas e conteúdo comunitário adicional, por isso o layout não é uma cópia literal da tela anterior de três abas.
 
-Android permite baixar o Expo Go compatível no site oficial. Segundo a [matriz do SDK 57](https://docs.expo.dev/versions/v57.0.0/), os mínimos são iOS 16.4 e Android 7.
+A mensagem completa está em [docs/ESCOPO_V2.md](docs/ESCOPO_V2.md). Ela prevalece sobre a arquitetura anterior.
 
-### Apresentação no navegador
-
-```powershell
-npm run web
-```
-
-O mesmo projeto pode ser demonstrado no navegador: câmera com ilustração e mapa esquemático offline. Todos os passos conceituais continuam disponíveis enquanto o ambiente do iPhone é preparado. Isso não substitui o teste em aparelho real.
-
-## Tecnologias e dependências
-
-- Expo 57, React Native 0.86, React 19.2, TypeScript 6 e Expo Router.
-- `expo-camera`: permissão, câmera traseira, captura e preview.
-- `react-native-maps`: mapa nativo disponível no Expo Go.
-- `expo-file-system`: limpeza das capturas temporárias.
-- `@expo/vector-icons`: ícones locais, sem imagens externas.
-- React Context: estado em memória.
-- ESLint, Prettier, tsx e executor de testes do Node.
-
-Dependências nativas instaladas com `npx expo install`. Reanimated/Worklets foram alinhados ao SDK por serem dependências transitivas da navegação. Versões exatas em `package-lock.json`.
-
-## Telas e funcionalidades
-
-- **Início:** câmera em destaque, resumo do Mercado Verde, carteira, educação, mapa e comunidade.
-- **Mercado Verde:** registro manual ou pela câmera, filtros, remoção de pendentes com confirmação e estado vazio.
-- **Câmera:** permissão, captura de um objeto, preview, refazer, análise simulada e fallback ilustrado.
-- **Resultado:** imagem, nome, categoria, confiança explicitamente simulada, descarte, reutilização e explicação educativa.
-- **Correção:** busca e seleção entre oito materiais, atualizando o resultado.
-- **Adicionar material:** unidade por material, validação, estimativa antes do registro e sucesso.
-- **Carteira:** estimados separados de confirmados, histórico e explicações.
-- **Aprender:** cinco conteúdos completos, busca, categorias e páginas de detalhes.
-- **Mapa:** dois pontos fictícios selecionáveis, horários e materiais aceitos; esquema offline e opção nativa.
-- **Comunidade:** apresentação ilustrada, sem fotografias atribuídas a moradores.
-
-## Roteiro da apresentação
-
-1. Início → Tirar uma foto.
-2. Capture um objeto ou use a ilustração. Escolha o cenário que controla o resultado, sem aleatoriedade.
-3. Analise (aproximadamente 850 ms), confirme ou corrija a identificação.
-4. Adicione ao Mercado Verde: 50 latas = 20 CATS demonstrativos; 4,5 kg de papelão = 9 CATS demonstrativos.
-5. Registre. O material fica aguardando entrega, aumentando apenas os estimados.
-6. Abra a carteira e confira a separação dos saldos.
-
-Estado inicial: 4 kg de papelão pendentes (8 estimados), 50 latas com entrega fictícia confirmada (20 confirmados). Registrar mais 4,5 kg de papelão resulta em **17 estimados e 20 confirmados**. Recarregar o app reinicia os exemplos. Não há botão para o usuário confirmar uma entrega administrativa.
-
-## Estrutura
-
-```text
-src/
-  app/               Rotas de abas e telas em stack
-    (tabs)/          Início, Mercado Verde, câmera, Aprender e mapa
-  components/        Botões, cards, estados, seletores, ilustrações e mapas
-  constants/         Tema: cores, espaços, tipografia e raios
-  context/           Estado da sessão e operações de registro
-  data/              Materiais, educação, pontos e taxas mockadas
-  services/          Classificação simulada e regras de quantidade/CATS
-  types/             Interfaces de domínio
-assets/images/       Ícone original
- tests/              Testes das regras de domínio
- docs/               Relatório de validação
-```
-
-A futura API pode substituir o contrato de classificação e as fontes de dados sem mover taxas ou unidades para as telas. A confirmação administrativa deve permanecer separada do registro do usuário.
-
-## Mocks e limites
-
-- **IA:** não existe inferência. O seletor determina o resultado. Os 94% de confiança são fictícios; após correção, aparece a indicação de escolha manual.
-- **CATS:** taxas arbitrárias em `src/data/cats.ts`; não são oficiais, monetárias ou resgatáveis. Entregas confirmadas iniciais são fictícias.
-- **Fotos:** não são enviadas, gravadas na galeria ou vinculadas ao histórico/dataset. O Expo usa cache temporário. O código tenta excluir a captura ao refazer, registrar ou abandonar o fluxo. Encerramento forçado pode impedir a limpeza imediata; o cache fica sob gestão do sistema operacional.
-- **Mapa:** coordenadas sintéticas próximas a 0,0, sem atribuição ao Catalão. Não solicita geolocalização nem oferece rotas. O esquema ilustrativo funciona offline. Builds próprios com Google Maps podem exigir chave; no Expo Go não há configuração extra.
-- **Estado:** fica somente em memória. Dados e ícones são locais; o carregamento pelo Metro depende da conexão com o computador.
-- **Conteúdo:** textos iniciais sujeitos à revisão comunitária. Locais, horários, taxas e aceitação real aguardam validação.
-- Não há backend, banco, login, painel administrativo, pagamentos, notificações, chatbot, API de IA ou treinamento.
-
-## Verificações
+## Verificação
 
 ```powershell
 npm run typecheck
 npm run lint
 npm test
 npx expo install --check
-npx expo-doctor@latest
-npx expo export --platform all
+npx expo export --platform all --output-dir dist-v2
 ```
 
-TypeScript/lint aprovados, quatro testes passando, Expo Doctor 21/21, bundles Android/iOS/web gerados. O fluxo foi percorrido no navegador em largura de celular. Detalhes em [docs/VALIDACAO.md](docs/VALIDACAO.md).
+Evidências e roteiro de testes no aparelho em [docs/VALIDACAO_V2.md](docs/VALIDACAO_V2.md). O relatório `VALIDACAO.md` registra a versão anterior, não comprova esta atualização.
 
-O npm reportou 14 alertas moderados transitivos (`uuid`/`xcode` e `decode-uri-component`/`query-string`), sem altos ou críticos na consulta. Não foi aplicado `npm audit fix --force`: as sugestões incluem regressões incompatíveis de Expo/Router. Reavaliar com futuras atualizações do SDK.
+## Fontes técnicas e localização
+
+- [Expo SDK 57](https://docs.expo.dev/versions/v57.0.0/)
+- [Câmera](https://docs.expo.dev/versions/v57.0.0/sdk/camera/)
+- [Localização](https://docs.expo.dev/versions/v57.0.0/sdk/location/)
+- [Estudo do Lago Catalão: coordenada de referência CAT 1](https://www.researchgate.net/publication/282867471_FITOPLANCTON_DE_UM_LAGO_DE_INUNDACAO_AMAZONICO_LAGO_CATALAO_AMAZONAS_-_BRASIL_ESTRUTURA_DA_COMUNIDADE_FLUTUACOES_ESPACIAIS_E_TEMPORAIS). Não é a posição validada das casas nem um ponto de entrega.

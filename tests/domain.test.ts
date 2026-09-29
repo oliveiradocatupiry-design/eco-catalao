@@ -1,72 +1,80 @@
 /// <reference types="node" />
 import assert from "node:assert/strict";
 import { test } from "node:test";
-import { materials, getMaterial } from "../src/data/materials";
-import { initialEntries, mockCatsRates } from "../src/data/cats";
+import { createRegistration } from "../src/services/registrationService";
+import { wasteTypes } from "../src/data/wasteTypes";
+import { wasteSubtypes } from "../src/data/wasteSubtypes";
+import { reuseIdeas } from "../src/data/reuseIdeas";
+import { getMaterial } from "../src/data/materials";
 import {
-  balances,
-  estimateCats,
-  parseQuantity,
-} from "../src/services/marketService";
-import { classificationService } from "../src/services/mockClassificationService";
-
-test("quantidade aceita vírgula e ponto para kg e rejeita entradas inválidas", () => {
-  assert.equal(parseQuantity("4,5", "kg").value, 4.5);
-  assert.equal(parseQuantity("4.5", "kg").value, 4.5);
-  for (const value of [
-    "",
+  collectionPoints,
+  communityCoordinate,
+} from "../src/data/collectionPoints";
+const draft = { materialId: "pet", quantity: "", weight: "" };
+test("salva peso decimal brasileiro, foto e CATS indefinido", () => {
+  const result = createRegistration(
+    { ...draft, weight: "1,5", photo: "file://foto.jpg" },
+    "registro-1",
+    "2026-09-28T12:00:00Z",
+  );
+  assert.equal(result.weight, 1.5);
+  assert.equal(result.photo, "file://foto.jpg");
+  assert.equal(result.cats, null);
+  assert.equal(result.status, "Aguardando entrega");
+  assert.equal(result.date, "2026-09-28T12:00:00Z");
+  assert.equal(result.quantity, undefined);
+});
+test("aceita quantidade, peso ou ambos sem exigir foto", () => {
+  assert.equal(
+    createRegistration({ ...draft, quantity: "3" }, "1").quantity,
+    3,
+  );
+  assert.equal(
+    createRegistration({ ...draft, quantity: "3", weight: "0.5" }, "2").weight,
+    0.5,
+  );
+});
+test("rejeita material livre, valores ausentes, negativos, não finitos e quantidade fracionada", () => {
+  assert.throws(() => createRegistration(draft, "1"));
+  assert.throws(() =>
+    createRegistration(
+      { ...draft, materialId: "qualquer", quantity: "1" },
+      "1",
+    ),
+  );
+  for (const weight of [
     "-1",
     "0",
     "NaN",
     "Infinity",
-    "4abc",
-    "1,2.3",
     "1e3",
-    "10001",
-    "1.234",
+    "2kg",
+    "1,2.3",
+    "100001",
   ])
-    assert.ok(parseQuantity(value, "kg").error, value);
-  assert.ok(parseQuantity("2,5", "unidade").error);
-  assert.equal(parseQuantity("50", "unidade").value, 50);
+    assert.throws(() => createRegistration({ ...draft, weight }, "1"), weight);
+  assert.throws(() => createRegistration({ ...draft, quantity: "1,5" }, "1"));
 });
-test("unidades e taxas são definidas para cada material", () => {
-  assert.equal(new Set(materials.map((m) => m.id)).size, materials.length);
-  for (const material of materials) {
-    assert.ok(mockCatsRates[material.id] > 0);
-    assert.ok(material.instrucoesDescarte);
+test("todas as trilhas educativas chegam a um material e a uma ideia completa", () => {
+  for (const type of wasteTypes)
+    assert.ok(wasteSubtypes.some((s) => s.typeId === type.id));
+  for (const sub of wasteSubtypes) {
+    assert.ok(getMaterial(sub.id));
+    assert.ok(wasteTypes.some((t) => t.id === sub.typeId));
+    const idea = reuseIdeas.find((i) => i.id === sub.reuseId);
+    assert.ok(idea);
+    assert.ok(idea.steps.length >= 3);
+    assert.ok(idea.materials.length);
   }
-  assert.equal(getMaterial("aluminio")?.unidadeDeMedida, "unidade");
-  assert.equal(getMaterial("papelao")?.unidadeDeMedida, "kg");
 });
-test("registro pendente altera estimados sem alterar confirmados", () => {
-  const material = getMaterial("aluminio")!;
-  const cats = estimateCats(material, 50);
-  assert.equal(cats, 20);
-  assert.deepEqual(
-    balances([
-      ...initialEntries,
-      {
-        id: "test",
-        materialId: material.id,
-        quantity: 50,
-        cats,
-        status: "pending",
-        date: "",
-      },
-    ]),
-    { pending: 28, confirmed: 20 },
+test("mapa usa referência amazônica e pontos explicitamente demonstrativos com contato a validar", () => {
+  assert.ok(
+    communityCoordinate.latitude < -3 && communityCoordinate.longitude < -59,
   );
-  assert.deepEqual(balances(initialEntries), { pending: 8, confirmed: 20 });
-  assert.deepEqual(balances([]), { pending: 0, confirmed: 0 });
-});
-test("classificação previsível e correção muda material e unidade sem mutar original", async () => {
-  const original = await classificationService.classify("aluminio");
-  assert.equal(original.materialId, "aluminio");
-  assert.equal(original.confidence, 0.94);
-  const corrected = classificationService.correct(original, "papelao");
-  assert.equal(corrected.materialId, "papelao");
-  assert.equal(corrected.corrected, true);
-  assert.equal(getMaterial(corrected.materialId)?.unidadeDeMedida, "kg");
-  assert.equal(original.materialId, "aluminio");
-  assert.equal(original.corrected, false);
+  for (const point of collectionPoints) {
+    assert.match(point.name, /demonstrativo/);
+    assert.ok(point.phone);
+    assert.ok(point.address);
+    assert.ok(Number.isFinite(point.coordinate.latitude));
+  }
 });

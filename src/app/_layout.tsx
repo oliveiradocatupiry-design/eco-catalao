@@ -1,4 +1,3 @@
-import { FlowPrivacy } from "../components/FlowPrivacy";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { AppProvider } from "../context/AppContext";
@@ -6,7 +5,6 @@ import { colors } from "../constants/theme";
 export default function RootLayout() {
   return (
     <AppProvider>
-      <FlowPrivacy />
       <StatusBar style="dark" />
       <Stack
         screenOptions={{
@@ -18,24 +16,19 @@ export default function RootLayout() {
         }}
       >
         <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="resultado" options={{ title: "Seu material" }} />
         <Stack.Screen
-          name="corrigir"
-          options={{ title: "Corrigir identificação" }}
+          name="tipo/[id]"
+          options={{ title: "Tipos de resíduos" }}
         />
         <Stack.Screen
-          name="adicionar"
-          options={{ title: "Adicionar material" }}
+          name="subtipo/[id]"
+          options={{ title: "Conheça o material" }}
         />
         <Stack.Screen
-          name="carteira"
-          options={{ title: "Minha carteira CATS" }}
+          name="reutilizacao/[id]"
+          options={{ title: "Ideias de reutilização" }}
         />
-        <Stack.Screen name="conteudo/[id]" options={{ title: "Aprender" }} />
-        <Stack.Screen
-          name="comunidade"
-          options={{ title: "Comunidade do Catalão" }}
-        />
+        <Stack.Screen name="conteudo/[id]" options={{ title: "Reciclagem" }} />
       </Stack>
     </AppProvider>
   );

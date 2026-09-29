@@ -21,20 +21,6 @@ export interface Material {
   icon: "can" | "bottle" | "box" | "paper" | "glass";
   color: string;
 }
-export interface Classification {
-  materialId: MaterialId;
-  confidence: number;
-  corrected: boolean;
-  accepted: boolean;
-}
-export interface MarketEntry {
-  id: string;
-  materialId: MaterialId;
-  quantity: number;
-  cats: number;
-  status: "pending" | "confirmed";
-  date: string;
-}
 export interface EducationalContent {
   id: string;
   title: string;
@@ -50,6 +36,8 @@ export interface CollectionPoint {
   name: string;
   type: string;
   address: string;
+  phone: string;
+  description: string;
   hours: string;
   materials: string[];
   coordinate: { latitude: number; longitude: number };
