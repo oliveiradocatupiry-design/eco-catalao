@@ -2,7 +2,7 @@
   "expo": {
     "name": "EcoCatalão",
     "slug": "ecocatalao-mobile",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/ecocatalao-icon.png",
     "userInterfaceStyle": "light",
@@ -16,7 +16,12 @@
         "foregroundImage": "./assets/images/ecocatalao-icon.png"
       },
       "package": "br.org.ecocatalao.mobile",
-      "blockedPermissions": ["android.permission.RECORD_AUDIO"]
+      "blockedPermissions": ["android.permission.RECORD_AUDIO"],
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION"
+      ]
     },
     "web": {
       "output": "static",
@@ -52,10 +57,17 @@
           "microphonePermission": false,
           "photosPermission": "Permitir selecionar uma foto do resíduo?"
         }
-      ]
+      ],
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "d71552b9-24b0-45bd-be84-b3257a74f4bf"
+      }
     }
   }
 }

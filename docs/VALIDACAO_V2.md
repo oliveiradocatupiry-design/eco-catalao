@@ -1,5 +1,7 @@
 # Validação do EcoCatalão v2 — 28/09/2026
 
+> Relatório histórico da V2. Para o comportamento atual de armazenamento e os testes da V2.1, consulte [VALIDACAO_V2_1.md](VALIDACAO_V2_1.md).
+
 ## Escopo revisado
 
 Implementação da mensagem completa salva em `ESCOPO_V2.md`, no projeto mobile existente. O novo escopo prevalece sobre a versão anterior: Comunidade do Catalão, Registro de Resíduo, Pontos de Coleta e Reciclagem. Câmera e CATS pertencem ao registro.

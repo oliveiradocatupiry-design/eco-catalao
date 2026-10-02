@@ -1,0 +1,381 @@
+{
+  "version": 1,
+  "records": [
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "id": "plastico",
+      "name": "Plástico",
+      "description": "Garrafas e embalagens: cada tipo tem seu cuidado.",
+      "color": "#DFF3E9",
+      "icon": "bottle",
+      "kind": "types"
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "id": "papel",
+      "name": "Papel",
+      "description": "Folhas e caixas limpas e secas podem ganhar outro destino.",
+      "color": "#F4E9D6",
+      "icon": "paper",
+      "kind": "types"
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "id": "metal",
+      "name": "Metal",
+      "description": "Latas e objetos de metal, separados com cuidado.",
+      "color": "#DDEEF1",
+      "icon": "metal",
+      "kind": "types"
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "id": "vidro",
+      "name": "Vidro",
+      "description": "Potes e garrafas exigem atenção no manuseio.",
+      "color": "#E4EADB",
+      "icon": "glass",
+      "kind": "types"
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "id": "multicamadas",
+      "name": "Multicamadas",
+      "description": "Embalagens que combinam diferentes materiais.",
+      "color": "#F4E9D6",
+      "icon": "box",
+      "kind": "types"
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "pet",
+      "name": "Garrafa PET",
+      "description": "Depois do último gole, uma nova possibilidade. PET é um tipo de plástico. Nem todos os plásticos têm o mesmo destino: a aceitação depende da estrutura de coleta e reciclagem disponível.",
+      "typeId": "plastico",
+      "impact": "Embalagens soltas podem chegar ao rio e se fragmentar em pedaços menores. Evitar o descarte na água ajuda a proteger o território.",
+      "separation": "Esvazie, remova os restos e deixe secar. Guarde em saco separado dos resíduos orgânicos.",
+      "disposal": "Esvazie, retire os resíduos e deixe secar. Separe de resíduos orgânicos. Confirme como o ponto recebe tampas e rótulos.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "plastico",
+      "name": "Plástico rígido",
+      "description": "Conhecer o tipo ajuda a escolher o destino. Existem diferentes resinas plásticas. Filmes, embalagens rígidas e materiais mistos podem ter destinos diferentes.",
+      "typeId": "plastico",
+      "impact": "A mistura de diferentes plásticos dificulta seu aproveitamento. Separar e reduzir o consumo evita descarte desnecessário.",
+      "separation": "Separe embalagens rígidas vazias e secas. Confira o que a coleta local aceita.",
+      "disposal": "Retire resíduos e separe embalagens secas. Consulte quais tipos de plástico o ponto aceita.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "papelao",
+      "name": "Papelão",
+      "description": "Uma caixa pode continuar sua história. A umidade e a gordura dificultam o reaproveitamento das fibras. Guardar papelão em local seco faz diferença.",
+      "typeId": "papel",
+      "impact": "Quando molhado ou engordurado, o papelão pode perder a possibilidade de reciclagem. Protegê-lo da chuva e do rio preserva as fibras.",
+      "separation": "Desmonte as caixas, retire restos de comida e guarde em local seco.",
+      "disposal": "Mantenha seco, desmonte as caixas e retire restos de comida. Papelão engordurado ou molhado pode não ser aceito.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "papel",
+      "name": "Papel",
+      "description": "Separar bem é o primeiro passo. Papel limpo e seco tem mais chances de ser aproveitado. Papéis plastificados e especiais precisam de orientação específica.",
+      "typeId": "papel",
+      "impact": "Aproveitar os dois lados da folha reduz o uso de papel novo. A separação correta facilita recuperar suas fibras.",
+      "separation": "Separe folhas limpas e secas de guardanapos usados e papéis sanitários.",
+      "disposal": "Separe papéis limpos e secos. Papel higiênico, guardanapos usados e papéis engordurados não devem ir junto.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "aluminio",
+      "name": "Lata de alumínio",
+      "description": "Pequena no tamanho. Grande no potencial de voltar ao ciclo. O alumínio pode ser reciclado várias vezes. A separação ajuda a recuperar esse material e reduz a necessidade de extrair novos recursos.",
+      "typeId": "metal",
+      "impact": "Reciclar alumínio permite recuperar material e reduzir a necessidade de extrair novos recursos.",
+      "separation": "Esvazie as latas e guarde secas. Evite manusear bordas cortantes.",
+      "disposal": "Esvazie a lata e retire os resíduos. Guarde seca e separada dos rejeitos. Consulte o ponto de coleta antes da entrega.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "metal",
+      "name": "Metal",
+      "description": "Recuperar materiais também é cuidar do território. Aço e alumínio são exemplos de metais recicláveis. Cada tipo exige processamento próprio.",
+      "typeId": "metal",
+      "impact": "Reparar e reaproveitar objetos ajuda a reduzir descarte e a demanda por matéria-prima.",
+      "separation": "Separe metais comuns. Pilhas, baterias e recipientes pressurizados precisam de orientações específicas.",
+      "disposal": "Separe metais limpos. Proteja pontas e bordas. Pilhas, baterias e recipientes pressurizados exigem coleta específica.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "vidro",
+      "name": "Vidro",
+      "description": "Um material durável que pede cuidado. Garrafas e potes de vidro podem ser reciclados, mas precisam de uma cadeia de coleta adequada. Reciclável não significa aceito em todos os locais.",
+      "typeId": "vidro",
+      "impact": "O vidro abandonado pode causar cortes. A entrega correta depende da existência de coleta e processamento adequados.",
+      "separation": "Separe potes íntegros. Embale e identifique cacos; não misture lâmpadas ou cerâmicas.",
+      "disposal": "Separe garrafas e potes vazios. Embale e identifique cacos para evitar cortes. Confirme a aceitação antes de levar; lâmpadas, espelhos e cerâmica têm outros destinos.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "subtypes",
+      "id": "longa-vida",
+      "name": "Embalagem longa vida",
+      "description": "Camadas diferentes, um cuidado em comum. Essas embalagens combinam materiais, como papel, plástico e alumínio. Sua reciclagem depende de uma estrutura específica.",
+      "typeId": "multicamadas",
+      "impact": "As camadas precisam de processamento específico. Confirme a aceitação para não misturar com materiais de outra cadeia.",
+      "separation": "Esvazie, remova resíduos e mantenha a embalagem seca.",
+      "disposal": "Esvazie, retire resíduos e guarde seca. Verifique se há recebimento de embalagens multicamadas.",
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "vaso-pet",
+      "name": "Garrafa PET como vaso",
+      "description": "Uma pequena muda em uma embalagem que já existe em casa.",
+      "subtypeId": "pet",
+      "materials": ["Garrafa PET limpa", "Tesoura", "Terra e muda"],
+      "steps": [
+        "Peça a um adulto para cortar a garrafa e proteger a borda.",
+        "Faça furos no fundo para escoar a água.",
+        "Coloque a terra e a muda.",
+        "Mantenha em local firme. Evite pratos com água parada."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "organizador-plastico",
+      "name": "Organizador de pequenos objetos",
+      "description": "Dê nova função a uma embalagem resistente e íntegra.",
+      "subtypeId": "plastico",
+      "materials": ["Embalagem limpa de uso doméstico", "Etiqueta", "Caneta"],
+      "steps": [
+        "Escolha um recipiente íntegro, sem pontas.",
+        "Limpe e seque. Não use para alimentos se não for apropriado.",
+        "Separe os objetos e identifique o conteúdo."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "caixa-organizadora",
+      "name": "Caixa para organizar materiais",
+      "description": "Uma caixa seca pode ajudar a manter tudo no lugar.",
+      "subtypeId": "papelao",
+      "materials": [
+        "Caixa de papelão limpa",
+        "Papel de reaproveitamento",
+        "Cola e etiqueta"
+      ],
+      "steps": [
+        "Confira se a caixa está seca e firme.",
+        "Reforce o fundo e cubra com papel, se desejar.",
+        "Identifique o conteúdo.",
+        "Guarde em local protegido da umidade."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "bloco-rascunho",
+      "name": "Bloco de rascunhos",
+      "description": "Use o verso das folhas antes de descartá-las.",
+      "subtypeId": "papel",
+      "materials": ["Folhas usadas de um lado", "Prendedor"],
+      "steps": [
+        "Separe folhas sem informações pessoais que precisem de proteção.",
+        "Junte com o lado em branco virado para cima.",
+        "Prenda e use para listas e desenhos."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "reuso-lata",
+      "name": "Porta-lápis com lata íntegra",
+      "description": "Use apenas uma lata sem bordas cortantes.",
+      "subtypeId": "aluminio",
+      "materials": ["Lata limpa e segura", "Papel para revestir", "Cola"],
+      "steps": [
+        "Um adulto deve verificar se não há partes cortantes. Não use uma lata danificada.",
+        "Limpe e seque bem.",
+        "Revista a parte externa e use para guardar lápis. Se não estiver segura, encaminhe à coleta adequada."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "reuso-metal",
+      "name": "Recipiente para organizar ferramentas",
+      "description": "Reaproveite um recipiente de metal íntegro, sem cortar.",
+      "subtypeId": "metal",
+      "materials": ["Recipiente íntegro de metal", "Etiqueta"],
+      "steps": [
+        "Escolha uma peça sem ferrugem solta ou bordas cortantes.",
+        "Não corte nem perfure recipientes pressurizados.",
+        "Limpe, seque e organize objetos pequenos.",
+        "Identifique e mantenha fora do alcance de crianças."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "pote-organizador",
+      "name": "Pote de vidro organizador",
+      "description": "Um pote inteiro pode guardar pequenos objetos.",
+      "subtypeId": "vidro",
+      "materials": ["Pote de vidro sem trincas", "Tampa", "Etiqueta"],
+      "steps": [
+        "Verifique se há trincas. Use apenas um pote íntegro.",
+        "Lave e seque.",
+        "Guarde pequenos objetos e feche a tampa.",
+        "Não reutilize embalagens de produtos químicos para alimentos."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "ideas",
+      "id": "porta-lapis",
+      "name": "Porta-lápis de embalagem",
+      "description": "Uma ideia simples com embalagem longa vida.",
+      "subtypeId": "longa-vida",
+      "materials": ["Embalagem longa vida limpa", "Tesoura", "Papel e cola"],
+      "steps": [
+        "Um adulto deve cortar a parte superior.",
+        "Limpe, seque e proteja as bordas.",
+        "Revista com papel reaproveitado.",
+        "Use para lápis, longe de água e calor."
+      ],
+      "imageReference": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "education",
+      "id": "separar",
+      "name": "Separar é o primeiro cuidado",
+      "description": "Um jeito simples de começar, dentro de casa.",
+      "category": "Reciclagem",
+      "content": "Comece com dois grupos\nSepare materiais recicláveis secos dos resíduos orgânicos e dos rejeitos. Papel higiênico e guardanapos usados não devem ir junto com o papel reciclável.\n\nRetire os resíduos\nEsvazie as embalagens e retire restos de alimentos. Quando precisar enxaguar, evite desperdício de água. Deixe secar antes de guardar.\n\nCombine o destino\nNem todo material reciclável é recebido em todo ponto. Confirme quais materiais são aceitos e guarde tudo em local protegido até a entrega.",
+      "subtypeId": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "education",
+      "id": "rio",
+      "name": "O cuidado também chega ao rio",
+      "description": "Pequenas escolhas conectam casa, comunidade e água.",
+      "category": "Território",
+      "content": "Resíduos não pertencem à água\nEm um território ligado ao rio, o descarte inadequado pode espalhar resíduos e afetar a vida aquática e o cotidiano das pessoas.\n\nGuarde com segurança\nUse recipientes fechados e protegidos de chuva, vento e animais. Evite deixar embalagens soltas perto da água.\n\nCuidar é uma ação coletiva\nCompartilhe orientações e combine soluções de coleta com a comunidade. Pontos e horários deste protótipo são exemplos; os locais reais ainda precisam ser validados.",
+      "subtypeId": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "education",
+      "id": "reutilizar",
+      "name": "Antes de descartar, imagine de novo",
+      "description": "Dar mais tempo de uso também faz diferença.",
+      "category": "Reutilização",
+      "content": "Use o que já existe\nUma caixa limpa organiza materiais. O verso de uma folha vira rascunho. Um pote íntegro pode guardar pequenos objetos.\n\nSegurança vem primeiro\nNão reutilize embalagens de produtos químicos para água ou alimentos. Evite bordas cortantes e peça ajuda de um adulto ao cortar materiais.\n\nQuando chega a hora de reciclar\nSe o objeto não puder ser reparado ou reutilizado com segurança, separe pelo material e confirme o destino adequado.",
+      "subtypeId": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "education",
+      "id": "mercado",
+      "name": "Como funciona o Mercado Verde?",
+      "description": "Conheça a proposta do evento comunitário. Datas e regras ainda precisam de validação.",
+      "category": "Mercado Verde",
+      "content": "1. Registre o material\nSelecione manualmente o material e informe a quantidade ou o peso. Os valores em CATS ainda serão definidos pelo projeto.\n\n2. Prepare a entrega\nO registro fica aguardando entrega. Ele não gera saldo confirmado. Locais, horários e taxas reais ainda dependem de validação.\n\n3. A confirmação vem depois\nNo sistema futuro, uma pessoa autorizada verificará a entrega. Neste protótipo não há confirmação administrativa, saldo ou resgate.",
+      "subtypeId": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "education",
+      "id": "vidro",
+      "name": "Vidro: separar sem machucar",
+      "description": "Cuidado com quem separa, transporta e recebe.",
+      "category": "Descarte",
+      "content": "Potes e garrafas\nGuarde os recipientes vazios de modo estável e confirme se o ponto aceita vidro antes de transportar.\n\nSe estiver quebrado\nNão deixe cacos soltos em sacolas. Use uma embalagem resistente e sinalize claramente que há vidro quebrado, seguindo a orientação da coleta local.\n\nNem tudo é o mesmo vidro\nEspelhos, lâmpadas e cerâmica não devem ser misturados com garrafas e potes. Procure orientação para o destino específico.",
+      "subtypeId": ""
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "points",
+      "id": "p1",
+      "name": "Ponto demonstrativo 1",
+      "description": "Local fictício para testar o mapa. Não é um ponto de entrega em funcionamento.",
+      "address": "Endereço a validar com a comunidade",
+      "phone": "",
+      "hours": "",
+      "latitude": -3.163,
+      "longitude": -59.912,
+      "materialIds": ["aluminio", "pet", "papelao"],
+      "notes": "Dado demonstrativo. Coordenadas, contato, horário e recebimento a validar com a comunidade."
+    },
+    {
+      "status": "active",
+      "updatedAt": "2026-09-29T00:00:00.000Z",
+      "kind": "points",
+      "id": "p2",
+      "name": "Ponto demonstrativo 2",
+      "description": "Local fictício para testar a seleção e os detalhes de um ponto.",
+      "address": "Endereço a validar com a comunidade",
+      "phone": "",
+      "hours": "",
+      "latitude": -3.158,
+      "longitude": -59.918,
+      "materialIds": ["papel", "plastico"],
+      "notes": "Dado demonstrativo. Coordenadas, contato, horário e recebimento a validar com a comunidade."
+    }
+  ]
+}

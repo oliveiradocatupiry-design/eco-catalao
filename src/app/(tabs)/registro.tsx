@@ -1,7 +1,7 @@
 import { useCallback, useRef, useState } from "react";
 import {
   AppState,
-  Image,
+  ActivityIndicator,
   Linking,
   Modal,
   ScrollView,
@@ -12,9 +12,15 @@ import {
 import { useFocusEffect } from "expo-router";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import * as ImagePicker from "expo-image-picker";
-import { File } from "expo-file-system";
+import { RegistrationPhoto } from "../../components/RegistrationPhoto";
+import { filterRegistrations } from "../../services/registrationRepository";
+import type {
+  WasteRegistration,
+  RegistrationDraft,
+} from "../../types/registration";
 import {
   Button,
+  Chip,
   Card,
   EmptyState,
   Heading,
@@ -26,11 +32,26 @@ import {
 } from "../../components/ui";
 import { MaterialPicker } from "../../components/MaterialPicker";
 import { useApp } from "../../context/AppContext";
-import { getMaterial } from "../../data/materials";
+import { getMaterial, materials } from "../../data/materials";
 import type { MaterialId } from "../../types";
 import { colors } from "../../constants/theme";
 export default function Registration() {
-  const { entries, register } = useApp();
+  const {
+    entries,
+    register,
+    edit,
+    remove,
+    loading,
+    loadError,
+    reload,
+    operation,
+  } = useApp();
+  const [editing, setEditing] = useState<WasteRegistration>();
+  const pendingDraft = useRef<RegistrationDraft | undefined>(undefined);
+  const [deleting, setDeleting] = useState<WasteRegistration>();
+  const [filter, setFilter] = useState<string>();
+  const visibleEntries = filterRegistrations(entries, filter);
+  const saving = operation === "save" || operation === "edit";
   const [permission, requestPermission] = useCameraPermissions();
   const camera = useRef<CameraView>(null);
   const [cameraOpen, setCameraOpen] = useState(false);
@@ -39,7 +60,7 @@ export default function Registration() {
   const locked = useRef(false);
   const active = useRef(false);
   const [photo, setPhoto] = useState<string>();
-  const draftPhoto = useRef<string | undefined>(undefined);
+
   const [materialId, setMaterial] = useState<MaterialId>();
   const [quantity, setQuantity] = useState("");
   const [weight, setWeight] = useState("");
@@ -49,16 +70,67 @@ export default function Registration() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
   function replacePhoto(uri?: string) {
-    const previous = draftPhoto.current;
-    draftPhoto.current = uri;
     setPhoto(uri);
-    if (previous?.startsWith("file://") && previous !== uri) {
-      try {
-        const file = new File(previous);
-        if (file.exists) file.delete();
-      } catch {
-        /* O SO gerencia o cache temporário. */
-      }
+  }
+  function beginEdit(entry: WasteRegistration) {
+    if (locked.current || operation) return;
+    if (!editing)
+      pendingDraft.current = {
+        materialId: materialId ?? "",
+        quantity,
+        weight,
+        photo,
+      };
+    setEditing(entry);
+    setMaterial(entry.materialId);
+    setQuantity(entry.quantity?.toString() ?? "");
+    setWeight(
+      entry.weight?.toLocaleString("pt-BR", {
+        useGrouping: false,
+        maximumSignificantDigits: 21,
+      }) ?? "",
+    );
+    setPhoto(entry.photo);
+    setCameraOpen(false);
+    setFormError("");
+    setMessage("");
+    setError("");
+    scroll.current?.scrollTo({ y: 0, animated: true });
+  }
+  function finishEdit() {
+    const draft = pendingDraft.current;
+    setMaterial(
+      draft?.materialId ? (draft.materialId as MaterialId) : undefined,
+    );
+    setQuantity(draft?.quantity ?? "");
+    setWeight(draft?.weight ?? "");
+    setPhoto(draft?.photo);
+    pendingDraft.current = undefined;
+    setEditing(undefined);
+    setCameraOpen(false);
+    setFormError("");
+    setError("");
+  }
+  async function confirmDelete() {
+    if (!deleting || locked.current) return;
+    locked.current = true;
+    setBusy(true);
+    setMessage("");
+    setError("");
+    try {
+      await remove(deleting);
+      setDeleting(undefined);
+      setMessage("Registro excluído.");
+    } catch (e) {
+      setError(
+        e instanceof Error
+          ? e.message
+          : "Não foi possível excluir. Tente novamente.",
+      );
+      setDeleting(undefined);
+    } finally {
+      locked.current = false;
+      setBusy(false);
     }
   }
   useFocusEffect(
@@ -77,6 +149,8 @@ export default function Registration() {
   );
   async function openCamera() {
     if (locked.current) return;
+    locked.current = true;
+    setBusy(true);
     setError("");
     setReady(false);
     try {
@@ -93,6 +167,9 @@ export default function Registration() {
       setError(
         "Não foi possível abrir a câmera. Tente novamente ou use a galeria.",
       );
+    } finally {
+      locked.current = false;
+      setBusy(false);
     }
   }
   async function capture() {
@@ -135,15 +212,22 @@ export default function Registration() {
       setBusy(false);
     }
   }
-  function save() {
+  async function save() {
     if (locked.current) return;
+    locked.current = true;
+    setBusy(true);
     setError("");
     setMessage("");
     setFormError("");
     try {
-      register({ materialId: materialId ?? "", quantity, weight, photo });
-      // Transferência da foto ao histórico: não excluir ao limpar o formulário.
-      draftPhoto.current = undefined;
+      const draft = { materialId: materialId ?? "", quantity, weight, photo };
+      if (editing) {
+        await edit(editing, draft);
+        finishEdit();
+        setMessage("Alterações salvas.");
+        return;
+      }
+      await register(draft);
       setPhoto(undefined);
       setMaterial(undefined);
       setQuantity("");
@@ -155,6 +239,9 @@ export default function Registration() {
       );
     } catch (e) {
       setFormError(e instanceof Error ? e.message : "Não foi possível salvar.");
+    } finally {
+      locked.current = false;
+      setBusy(false);
     }
   }
   return (
@@ -164,6 +251,9 @@ export default function Registration() {
         title="Registro de Resíduo"
         subtitle="Fotografe e registre os materiais que você pretende entregar."
       />
+      {editing && (
+        <Notice>Editando registro. A data original será mantida.</Notice>
+      )}
       <Card tone={colors.primarySoft}>
         {cameraOpen ? (
           <>
@@ -196,12 +286,7 @@ export default function Registration() {
         ) : (
           <>
             {photo ? (
-              <Image
-                source={{ uri: photo }}
-                style={{ height: 260, width: "100%", borderRadius: 18 }}
-                resizeMode="contain"
-                accessibilityLabel="Prévia da foto do resíduo"
-              />
+              <RegistrationPhoto key={photo} uri={photo} preview />
             ) : (
               <View style={{ alignItems: "center", padding: 28, gap: 12 }}>
                 <Icon name="camera-outline" size={64} />
@@ -264,6 +349,7 @@ export default function Registration() {
           materialId ? getMaterial(materialId)!.nome : "Selecionar material"
         }
         icon="chevron-down"
+        disabled={busy || !!operation}
         onPress={() => setPickerOpen(true)}
       />
       <Modal
@@ -302,6 +388,7 @@ export default function Registration() {
           accessibilityLabel="Quantidade em unidades"
           style={styles.input}
           keyboardType="number-pad"
+          editable={!busy && !operation}
           value={quantity}
           onChangeText={setQuantity}
           placeholder="Ex.: 5"
@@ -311,6 +398,7 @@ export default function Registration() {
           accessibilityLabel="Peso em quilogramas"
           style={styles.input}
           keyboardType="decimal-pad"
+          editable={!busy && !operation}
           value={weight}
           onChangeText={setWeight}
           placeholder="Ex.: 1,5"
@@ -326,57 +414,166 @@ export default function Registration() {
       </Card>
       {!!formError && <Notice error>{formError}</Notice>}
       <Button
-        title="Salvar registro"
+        title={
+          saving
+            ? "Salvando…"
+            : editing
+              ? "Salvar alterações"
+              : "Salvar registro"
+        }
+        loading={saving}
         icon="check"
         onPress={save}
-        disabled={busy || cameraOpen}
+        disabled={busy || cameraOpen || loading || !!loadError || !!operation}
       />
+      {editing && (
+        <Button
+          secondary
+          title="Cancelar"
+          disabled={busy || !!operation}
+          onPress={finishEdit}
+        />
+      )}
       <Text style={styles.caption}>
-        Os registros e as fotos ficam nesta sessão. Ao recarregar ou encerrar o
-        aplicativo, o histórico é reiniciado. Nada é enviado.
+        Os registros e fotos ficam salvos neste aparelho ou navegador. Nada é
+        enviado. Limpar os dados ou desinstalar pode apagar o histórico. Não há
+        backup ou sincronização.
       </Text>
       <Section title="Meus registros" />
-      {!entries.length && (
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{ gap: 8 }}
+      >
+        <Chip
+          label="Todos os materiais"
+          selected={!filter}
+          onPress={() => setFilter(undefined)}
+        />
+        {materials.map((material) => (
+          <Chip
+            key={material.id}
+            label={material.nome}
+            selected={filter === material.id}
+            onPress={() => setFilter(material.id)}
+          />
+        ))}
+      </ScrollView>
+      {loading && (
+        <View style={styles.row}>
+          <ActivityIndicator color={colors.primary} />
+          <Text style={styles.body}>Carregando seus registros…</Text>
+        </View>
+      )}
+      {!!loadError && (
+        <>
+          <Notice error>{loadError}</Notice>
+          <Button
+            secondary
+            title="Tentar novamente"
+            onPress={() => {
+              void reload();
+            }}
+          />
+        </>
+      )}
+      {!loading && !loadError && !!entries.length && !visibleEntries.length && (
+        <EmptyState
+          title="Você ainda não registrou esse material"
+          text="Escolha outro material ou crie um registro."
+        />
+      )}
+      {!loading && !loadError && !entries.length && (
         <EmptyState
           title="Seu primeiro registro começa aqui"
           text="Depois de salvar, seus materiais aparecerão nesta lista."
         />
       )}
-      {entries.map((entry) => (
-        <Card key={entry.id}>
-          <View style={styles.row}>
-            {entry.photo && (
-              <Image
-                source={{ uri: entry.photo }}
-                style={{ width: 72, height: 72, borderRadius: 12 }}
-                accessibilityLabel={`Foto de ${getMaterial(entry.materialId)?.nome}`}
-              />
-            )}
-            <View style={{ flex: 1 }}>
-              <Text style={styles.subtitle}>
-                {getMaterial(entry.materialId)?.nome}
-              </Text>
-              <Text style={styles.body}>
-                {[
-                  entry.quantity !== undefined
-                    ? `${entry.quantity} unidades`
-                    : null,
-                  entry.weight !== undefined
-                    ? `${entry.weight.toLocaleString("pt-BR")} kg`
-                    : null,
-                ]
-                  .filter(Boolean)
-                  .join(" · ")}
-              </Text>
+      {!loading &&
+        !loadError &&
+        visibleEntries.map((entry) => (
+          <Card key={entry.id}>
+            <View style={styles.row}>
+              {entry.photo && (
+                <RegistrationPhoto key={entry.photo} uri={entry.photo} />
+              )}
+              <View style={{ flex: 1 }}>
+                <Text style={styles.subtitle}>
+                  {getMaterial(entry.materialId)?.nome}
+                </Text>
+                <Text style={styles.body}>
+                  {[
+                    entry.quantity !== undefined
+                      ? `${entry.quantity} ${entry.quantity === 1 ? "unidade" : "unidades"}`
+                      : null,
+                    entry.weight !== undefined
+                      ? `${entry.weight.toLocaleString("pt-BR")} kg`
+                      : null,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </Text>
+              </View>
             </View>
-          </View>
-          <Text style={styles.caption}>
-            {new Date(entry.date).toLocaleString("pt-BR")}
-          </Text>
-          <Text style={styles.link}>{entry.status}</Text>
-          <Text style={styles.caption}>CATS: valor ainda não disponível</Text>
-        </Card>
-      ))}
+            <Text style={styles.caption}>
+              {new Date(entry.date).toLocaleString("pt-BR")}
+            </Text>
+            <Text style={styles.link}>{entry.status}</Text>
+            <Text style={styles.caption}>CATS: valor ainda não disponível</Text>
+            <Button
+              secondary
+              title="Editar"
+              disabled={busy || !!operation || !!editing}
+              onPress={() => beginEdit(entry)}
+            />
+            <Button
+              secondary
+              title={operation === entry.id ? "Excluindo…" : "Excluir"}
+              disabled={busy || !!operation || !!editing}
+              onPress={() => {
+                setDeleting(entry);
+                setError("");
+              }}
+            />
+          </Card>
+        ))}
+      <Modal
+        visible={!!deleting}
+        transparent
+        animationType="fade"
+        onRequestClose={() => {
+          if (!busy) setDeleting(undefined);
+        }}
+      >
+        <View
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            padding: 24,
+            backgroundColor: "rgba(0,0,0,0.35)",
+          }}
+        >
+          <Card>
+            <Text accessibilityRole="header" style={styles.subtitle}>
+              Excluir registro?
+            </Text>
+            <Text style={styles.body}>
+              Este registro será removido do seu histórico.
+            </Text>
+            <Button
+              secondary
+              title="Cancelar"
+              disabled={busy}
+              onPress={() => setDeleting(undefined)}
+            />
+            <Button
+              title={busy ? "Excluindo…" : "Excluir"}
+              loading={busy}
+              onPress={confirmDelete}
+            />
+          </Card>
+        </View>
+      </Modal>
     </Screen>
   );
 }

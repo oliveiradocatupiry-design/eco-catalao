@@ -114,8 +114,8 @@ export default function Home() {
               {entries.length}{" "}
               <Text style={styles.body}>
                 {entries.length === 1
-                  ? "registro nesta sessão"
-                  : "registros nesta sessão"}
+                  ? "registro no histórico"
+                  : "registros no histórico"}
               </Text>
             </Text>
           </View>

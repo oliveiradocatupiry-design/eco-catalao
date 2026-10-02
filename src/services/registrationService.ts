@@ -42,3 +42,35 @@ export function createRegistration(
     cats: null,
   };
 }
+
+export function validateStoredRegistration(entry: WasteRegistration) {
+  if (
+    !entry ||
+    typeof entry.id !== "string" ||
+    !entry.id ||
+    typeof entry.date !== "string" ||
+    !Number.isFinite(Date.parse(entry.date)) ||
+    entry.status !== "Aguardando entrega" ||
+    entry.cats !== null ||
+    (entry.photo !== undefined && typeof entry.photo !== "string")
+  ) {
+    throw new Error("Registro armazenado inválido");
+  }
+  for (const value of [entry.quantity, entry.weight]) {
+    if (
+      value !== undefined &&
+      (typeof value !== "number" ||
+        !Number.isFinite(value) ||
+        value <= 0 ||
+        value > 100000)
+    )
+      throw new Error("Valor armazenado inválido");
+  }
+  if (
+    !getMaterial(entry.materialId) ||
+    (entry.quantity === undefined && entry.weight === undefined) ||
+    (entry.quantity !== undefined && !Number.isInteger(entry.quantity))
+  )
+    throw new Error("Valor armazenado inválido");
+  return entry;
+}
